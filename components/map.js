@@ -7,7 +7,7 @@ let currentMarkers = [];
 let ownLocationMarker = null;
 let mapInstance; // <gmp-map>
 
-async function initMap() {
+export async function initMap() {
   mapInstance = document.querySelector("gmp-map");
   if (!mapInstance) {
     console.error("Map element not found!");
@@ -27,6 +27,8 @@ async function initMap() {
     currentCenter = { lat: loc.lat(), lng: loc.lng() };
     zoomAndCenterToFitMarkers(currentCenter.lat, currentCenter.lng);
     displayOwnLocationMarker(currentCenter.lat, currentCenter.lng);
+    const ordered = orderByProximity(visibleRestaurantData);
+    setVisibleRestaurantData(ordered);
   });
 
   try {
@@ -126,7 +128,7 @@ function displayOwnLocationMarker(lat, lng) {
   ownLocationMarker = marker;
 }
 
-function zoomAndCenterToFitMarkers(lat, lng) {
+export function zoomAndCenterToFitMarkers(lat, lng) {
   mapInstance.setAttribute("center", `${lat}, ${lng}`);
   mapInstance.setAttribute("zoom", "12");
 }
@@ -159,7 +161,6 @@ function handleSearch() {
   setVisibleRestaurantData(ordered);
   displayMarkers(ordered);
 
-  // center sensibly
   if (ordered.length > 0 && ordered[0]?.location?.coordinates?.length >= 2) {
     const [lng, lat] = ordered[0].location.coordinates;
     if (Number.isFinite(lat) && Number.isFinite(lng)) {
@@ -176,7 +177,7 @@ function handleClearSearch() {
   setVisibleRestaurantData(allRestaurantData);
 }
 
-function getOwnLocationCordinates() {
+export function getOwnLocationCordinates() {
   if (ownLocationMarker) {
     const positionString = ownLocationMarker.getAttribute("position");
     if (positionString) {
@@ -220,16 +221,10 @@ function setVisibleRestaurantData(data) {
 
 export function onRestaurantsChange(callback) {
   subscribers.add(callback);
-  // Immediately deliver current value if available
-  if (typeof visibleRestaurantData !== 'undefined') {
+  if (typeof visibleRestaurantData !== "undefined") {
     try {
       callback(visibleRestaurantData);
-    } catch (_) {
-      // noop
-    }
+    } catch (_) {}
   }
-  // Return unsubscribe function
   return () => subscribers.delete(callback);
 }
-
-window.initMap = initMap;

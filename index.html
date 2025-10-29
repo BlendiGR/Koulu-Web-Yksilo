@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html lang="FI">
+<html lang="fi">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
     <link rel="stylesheet" href="styles.css" />
+
     <!-- Map bare specifier 'geolib' to a browser ESM CDN -->
     <script type="importmap">
       {
@@ -14,7 +15,6 @@
         }
       }
     </script>
-    <!-- ES module entry point wires all components -->
     <script type="module" src="index.js"></script>
   </head>
   <body>
@@ -33,47 +33,57 @@
     </header>
 
     <main>
-      <div>
-        <p>
-          Syötä osoitteesi ja etsi lähistöllä olevia ravintoloita. Voit myös
-          hakea ravintolaa nimellä.
-        </p>
-      </div>
-      <div class="map-controls">
-        <!-- Google Place Autocomplete -->
-        <input
-          type="text"
-          id="autocomplete-input"
-          placeholder="Osoitteesi..."
-        />
+      <div id="cards-map-container">
+        <aside id="cards-container">
+          <!-- Example placeholder; you will render real cards here -->
+          <!-- <div class="card"><h3>Ravintola Nimi</h3><p>Osoite / Kaupunki</p></div> -->
+        </aside>
 
-        <input
-          type="text"
-          id="search-input"
-          placeholder="Hae ravintolaa nimellä..."
-        />
-        <button id="search-button">Hae</button>
-        <button id="clear-search-button">Tyhjennä</button>
-      </div>
+        <!-- RIGHT: Map with overlayed controls -->
+        <section id="map-container">
+          <div class="map-controls">
+            <!-- Google Place Autocomplete -->
+            <input
+              type="text"
+              id="autocomplete-input"
+              placeholder="Osoitteesi..."
+            />
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Hae ravintolaa nimellä..."
+            />
+            <button id="search-button">Hae</button>
+            <button id="clear-search-button">Tyhjennä</button>
+          </div>
 
-      <gmp-map
-        center="65.0121, 25.4651"
-        zoom="5"
-        map-id="DEMO_MAP_ID"
-        disable-map-type-control
-        disable-street-view-control
-      >
-        <!-- Markers will be added dynamically by main.js -->
-      </gmp-map>
+          <gmp-map
+            center="65.0121,25.4651"
+            zoom="5"
+            map-id="DEMO_MAP_ID"
+          ></gmp-map>
+        </section>
+      </div>
     </main>
 
     <footer>
       <p>&copy; <span id="year"></span></p>
     </footer>
-
-    <!-- Load Maps after main module. Add loading=async for best practice. -->
+    <script>
+      window.initMap = async function () {
+        try {
+          const mod = await import("./components/map.js");
+          if (mod && typeof mod.initMap === "function") {
+            await mod.initMap();
+          }
+        } catch (e) {
+          console.error("Failed to initialize map:", e);
+        }
+      };
+    </script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta&loading=async"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta"
+      async
       defer
     ></script>
   </body>
