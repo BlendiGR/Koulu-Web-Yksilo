@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="FI">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Koulu Projekti</title>
+    <meta name="description" content="Start of the web project" />
+    <link rel="stylesheet" href="styles.css" />
+    <!-- Map bare specifier 'geolib' to a browser ESM CDN -->
+    <script type="importmap">
+      {
+        "imports": {
+          "geolib": "https://esm.sh/geolib@3.3.4"
+        }
+      }
+    </script>
+    <!-- ES module entry point wires all components -->
+    <script type="module" src="index.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>
+          <a href="/index.html">
+            <img class="logo" src="/public/logo.png" alt="Logo of the site" />
+          </a>
+        </h1>
+        <ul class="nav-links">
+          <li><a href="index.html">Kirjaudu</a></li>
+          <li><a href="about.html">Tietoa</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div>
+        <p>
+          Syötä osoitteesi ja etsi lähistöllä olevia ravintoloita. Voit myös
+          hakea ravintolaa nimellä.
+        </p>
+      </div>
+      <div class="map-controls">
+        <!-- Google Place Autocomplete -->
+        <input
+          type="text"
+          id="autocomplete-input"
+          placeholder="Osoitteesi..."
+        />
+
+        <input
+          type="text"
+          id="search-input"
+          placeholder="Hae ravintolaa nimellä..."
+        />
+        <button id="search-button">Hae</button>
+        <button id="clear-search-button">Tyhjennä</button>
+      </div>
+
+      <gmp-map
+        center="65.0121, 25.4651"
+        zoom="5"
+        map-id="DEMO_MAP_ID"
+        disable-map-type-control
+        disable-street-view-control
+      >
+        <!-- Markers will be added dynamically by main.js -->
+      </gmp-map>
+    </main>
+
+    <footer>
+      <p>&copy; <span id="year"></span></p>
+    </footer>
+
+    <!-- Load Maps after main module. Add loading=async for best practice. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta&loading=async"
+      defer
+    ></script>
+  </body>
+</html>
