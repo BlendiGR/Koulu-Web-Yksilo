@@ -43,16 +43,32 @@
         <section id="map-container">
           <div class="map-controls">
             <!-- Google Place Autocomplete -->
-            <input
-              type="text"
-              id="autocomplete-input"
-              placeholder="Osoitteesi..."
-            />
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Hae ravintolaa nimellä..."
-            />
+            <div class="autocomplete-container">
+              <div class="autocomplete-container">
+                <input
+                  type="text"
+                  id="autocomplete-input"
+                  placeholder="Sijaintisi..."
+                />
+                <span id="help-icon" tabindex="0" aria-label="Kentän ohje"
+                  >?</span
+                >
+                <span class="tooltip-text" role="tooltip"
+                  >Kirjoita tähän sijaintisi <br />
+                  nähdäksesi lähimmät ravintolat.</span
+                >
+              </div>
+            </div>
+            <div class="search-container">
+              <input type="text" id="search-input" placeholder="Suodata..." />
+              <span id="help-icon" tabindex="0" aria-label="Kentän ohje"
+                >?</span
+              >
+              <span class="tooltip-text" role="tooltip"
+                >Suodata hakemalla kaupungilla, yrityksellä tai koululla, <br />
+                esimerkiksi: "Helsinki", "Metropolia" tai "Compass Group".
+              </span>
+            </div>
             <button id="search-button">Hae</button>
             <button id="clear-search-button">Tyhjennä</button>
           </div>

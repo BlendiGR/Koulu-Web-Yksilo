@@ -12,7 +12,6 @@ nav {
   align-items: center;
   background-color: #fdfdfd;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  border-bottom: 0.5px solid #757575;
   padding: 8px 20px;
 }
 
@@ -76,7 +75,7 @@ nav {
 
 #map-container {
   position: relative;
-  border: 2px solid #121212;
+  border: 1px solid #999999;
   border-radius: 6px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
@@ -136,4 +135,49 @@ gmp-map {
   color: #555;
   background: rgba(255, 255, 255, 0.8);
   padding: 4px 8px;
+}
+.autocomplete-container,
+.search-container {
+  position: relative;
+  display: inline-block;
+}
+
+#help-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ccc;
+  color: #000;
+  text-align: center;
+  line-height: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 125%;
+  right: 10%;
+  background: #333;
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+  z-index: 5000;
+}
+
+#help-icon:hover ~ .tooltip-text,
+#help-icon:focus ~ .tooltip-text {
+  visibility: visible;
+  z-index: 99999;
+  opacity: 1;
 }

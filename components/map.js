@@ -74,7 +74,7 @@ function displayMarkers(data) {
   data.forEach((item) => {
     if (!item?.location?.coordinates || item.location.coordinates.length < 2)
       return;
-    const [lng, lat] = item.location.coordinates; // [lon, lat]
+    const [lng, lat] = item.location.coordinates;
     if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
 
     const marker = document.createElement("gmp-advanced-marker");
