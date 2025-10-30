@@ -24,6 +24,7 @@ nav {
 }
 .nav-links {
   display: flex;
+  align-items: center;
   gap: 20px;
   list-style: none;
   margin: 0;
@@ -40,6 +41,7 @@ nav {
 
 .nav-links a:hover {
   background-color: #cd4527;
+  cursor: pointer;
 }
 
 #cards-map-container {
@@ -180,4 +182,227 @@ gmp-map {
   visibility: visible;
   z-index: 99999;
   opacity: 1;
+}
+
+#login-main,
+#login-main * {
+  box-sizing: border-box;
+}
+
+#login-main {
+  margin-top: 70px;
+  padding: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: url("/public/background.jpeg") no-repeat center center fixed;
+}
+
+#login-form {
+  display: flex;
+  flex-direction: column;
+  width: min(400px, 92vw);
+  padding: 32px 28px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  gap: 16px;
+  margin: 0;
+}
+
+#login-form h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  text-align: center;
+}
+
+#username-field,
+#password-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+  margin: 0;
+}
+
+/* labels */
+#login-form label {
+  font-weight: 600;
+  color: #121212;
+  font-size: 14px;
+}
+
+#login-form input {
+  font-size: 1rem;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+#login-form input:focus-visible {
+  border-color: #cd4527;
+  box-shadow: 0 0 0 3px rgba(205, 69, 39, 0.25);
+}
+
+#login-form button[type="submit"] {
+  height: 42px;
+  width: 100%;
+  border: none;
+  border-radius: 6px;
+  background-color: #121212;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.04s ease,
+    filter 0.2s ease;
+}
+#login-form button[type="submit"]:hover {
+  background-color: #cd4527;
+  filter: brightness(1.05);
+}
+#login-form button[type="submit"]:active {
+  transform: translateY(1px);
+}
+
+.register-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #e5e5e5;
+}
+
+#register-link {
+  display: inline-block;
+  text-decoration: none;
+  border: 1px solid #121212;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-weight: 600;
+  color: #121212;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+#register-link:hover {
+  background-color: #cd4527;
+  color: #fff;
+}
+
+#error-message {
+  color: red;
+  font-weight: 600;
+  text-align: center;
+}
+#profile-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: min(600px, 92vw);
+  margin: 60px auto;
+  padding: 32px;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* username + email */
+#welcome-username h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #121212;
+  text-align: center;
+}
+#profile-email p {
+  margin: 6px 0 0;
+  color: #555;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* avatar upload card */
+#avatar-change {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 24px;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  gap: 14px;
+}
+#avatar-change h3 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+#avatar-change label {
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+#avatar-change input[type="file"] {
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+}
+#avatar-change button {
+  height: 40px;
+  border: none;
+  border-radius: 6px;
+  background-color: #121212;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.04s ease;
+}
+#avatar-change button:hover {
+  background-color: #cd4527;
+}
+#avatar-change button:active {
+  transform: translateY(1px);
+}
+
+/* delete section */
+#delete-section {
+  text-align: center;
+}
+#delete-section p {
+  margin-bottom: 10px;
+  font-weight: 500;
+  color: #333;
+}
+#delete-account-btn {
+  border: 1px solid #cd4527;
+  color: #cd4527;
+  background: transparent;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+#delete-account-btn:hover {
+  background-color: #cd4527;
+  color: #fff;
+}
+
+#profile-avatar {
+  border-radius: 100%;
+  max-width: 200px;
+  margin: 10px;
+}
+
+#profile-avatar-nav {
+  border-radius: 100%;
+  max-width: 60px;
 }

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="../_guard.js"></script>
     <script type="importmap">
       {
         "imports": {
@@ -19,13 +20,13 @@
     <header>
       <nav>
         <h1>
-          <a href="/index.html">
+          <a href="/app/index.html">
             <img class="logo" src="/public/logo.png" alt="Logo of the site" />
           </a>
         </h1>
         <ul class="nav-links">
-          <li><a href="/login_page/index.html">Kirjaudu</a></li>
-          <li><a href="about.html">Tietoa</a></li>
+          <li><a href="/app/profile/index.html">Profiili</a></li>
+          <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
       </nav>
     </header>
@@ -80,7 +81,7 @@
     <script>
       window.initMap = async function () {
         try {
-          const mod = await import("./components_public/map.js");
+          const mod = await import("./components_authed/map.js");
           if (mod && typeof mod.initMap === "function") {
             await mod.initMap();
           }
@@ -94,5 +95,12 @@
       async
       defer
     ></script>
+    <script>
+      const logoutBtn = document.getElementById("logout-button");
+      logoutBtn.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.href = "/index.html";
+      });
+    </script>
   </body>
 </html>

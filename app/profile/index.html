@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="fi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Koulu Projekti</title>
+    <meta name="description" content="Start of the web project" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="../_guard.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "geolib": "https://esm.sh/geolib@3.3.4"
+        }
+      }
+    </script>
+    <script type="module" src="index.js"></script>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1>
+          <a href="/app/index.html">
+            <img class="logo" src="/public/logo.png" alt="Logo of the site" />
+          </a>
+        </h1>
+        <ul class="nav-links">
+          <li>
+            <img id="profile-avatar-nav" alt="Profile avatar" />
+          </li>
+          <li><a href="/app/profile/index.html">Profiili</a></li>
+          <li id="logout-button"><a>Kirjaudu Ulos</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main id="profile-content">
+      <div id="profile-options">
+        <div>
+          <img id="profile-avatar" alt="Profile avatar" />
+          <div id="welcome-username"></div>
+          <div id="profile-email">
+            <p>Sähköposti osoitteesi:</p>
+          </div>
+        </div>
+        <form
+          id="avatar-change"
+          action="/upload"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <h3>Vaihda Profiilukuvasi:</h3>
+          <label for="file">Select file:</label>
+          <input type="file" id="file" name="file" required />
+          <button type="submit">Upload</button>
+        </form>
+        <div id="delete-section">
+          <p>Haluatko poistaa tilisi?</p>
+          <button id="delete-account-btn">Poista tili</button>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <p>&copy; <span id="year"></span></p>
+    </footer>
+  </body>
+  <script>
+    const logoutBtn = document.getElementById("logout-button");
+    logoutBtn.addEventListener("click", () => {
+      localStorage.clear();
+      window.location.href = "/index.html";
+    });
+  </script>
+</html>
