@@ -9,7 +9,14 @@ let ownPos = null;
 
 function renderRestaurantCards(restaurants) {
   const container = document.getElementById("cards-container");
-  container.innerHTML = "";
+  const modal = document.getElementById("restaurant-modal");
+  const modalTitle = document.getElementById("modal-title");
+  const closeBtn = modal.querySelector(".close");
+  const modalAddress = document.getElementById("modal-address");
+  const modalMenu = document.getElementById("modal-menu");
+
+  container.querySelectorAll(".card").forEach((n) => n.remove());
+
   restaurants.forEach((restaurant) => {
     const card = document.createElement("div");
     card.className = "card";
@@ -23,6 +30,7 @@ function renderRestaurantCards(restaurants) {
     card.appendChild(address);
 
     const distance = document.createElement("p");
+    distance.className = "distance-info";
 
     if (ownPos && restaurant.location?.coordinates) {
       const [lng, lat] = restaurant.location.coordinates;
@@ -34,17 +42,60 @@ function renderRestaurantCards(restaurants) {
     } else {
       distance.textContent = "Hae oma sijainti nähdäksesi etäisyyden";
     }
-
-    distance.id = "distance-info";
     card.appendChild(distance);
-    card.onclick = () => {
-      zoomAndCenterToFitMarkers(
-        restaurant.location.coordinates[1],
-        restaurant.location.coordinates[0]
-      );
+
+    card.onclick = async () => {
+      modalTitle.textContent = restaurant.name;
+      modalAddress.textContent = restaurant.address;
+      modalMenu.innerHTML = "<p>Ladataan ruokalistaa...</p>";
+
+      modal.style.display = "block";
+      container.classList.add("is-modal-open");
+
+      try {
+        const url = `https://media2.edu.metropolia.fi/api/v1/restaurants/daily/${encodeURIComponent(
+          restaurant._id
+        )}/fi`;
+        const res = await fetch(url, {
+          headers: { Accept: "application/json" },
+        });
+        const data = await res.json();
+
+        modalMenu.innerHTML = "";
+        if (!Array.isArray(data) || data.length === 0) {
+          modalMenu.innerHTML = "<p>Ei ruokalistaa tälle ravintolalle.</p>";
+        } else {
+          data.forEach((item) => {
+            const p = document.createElement("p");
+            p.textContent = `${item.name} - ${item.price} €`;
+            modalMenu.appendChild(p);
+          });
+        }
+      } catch (err) {
+        modalMenu.innerHTML = "<p>Virhe ruokalistan haussa.</p>";
+        console.error(err);
+      }
+
+      if (restaurant.location?.coordinates) {
+        zoomAndCenterToFitMarkers(
+          restaurant.location.coordinates[1],
+          restaurant.location.coordinates[0]
+        );
+      }
     };
 
     container.appendChild(card);
+  });
+
+  function closeModal() {
+    modal.style.display = "none";
+    container.classList.remove("is-modal-open");
+  }
+
+  closeBtn.onclick = closeModal;
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeModal();
   });
 }
 
@@ -54,6 +105,5 @@ onRestaurantsChange((restaurants, location) => {
     const coords = getOwnLocationCordinates();
     if (coords) ownPos = coords;
   }
-
   renderRestaurantCards(restaurants);
 });

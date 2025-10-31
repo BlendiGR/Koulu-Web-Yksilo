@@ -54,6 +54,7 @@ nav {
 }
 
 #cards-container {
+  position: relative;
   overflow-y: auto;
   background: #f8f8f8;
   border: 1px solid #e5e5e5;
@@ -226,7 +227,6 @@ gmp-map {
   margin: 0;
 }
 
-/* labels */
 #login-form label {
   font-weight: 600;
   color: #121212;
@@ -314,7 +314,6 @@ gmp-map {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 
-/* username + email */
 #welcome-username h2 {
   margin: 0;
   font-size: 1.5rem;
@@ -329,7 +328,6 @@ gmp-map {
   text-align: center;
 }
 
-/* avatar upload card */
 #avatar-change {
   display: flex;
   flex-direction: column;
@@ -372,7 +370,6 @@ gmp-map {
   transform: translateY(1px);
 }
 
-/* delete section */
 #delete-section {
   text-align: center;
 }
@@ -405,4 +402,48 @@ gmp-map {
 #profile-avatar-nav {
   border-radius: 100%;
   max-width: 60px;
+}
+
+.modal {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.modal-content {
+  height: 100%;
+  background: #fff;
+  padding: 20px;
+  overflow: auto;
+}
+#cards-container.is-modal-open {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+.close {
+  float: right;
+  font-size: 24px;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+.menu-list {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+.menu-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 10px;
+}
+.menu-item__meta {
+  grid-column: 1 / -1;
+  font-size: 0.9em;
+  opacity: 0.8;
 }

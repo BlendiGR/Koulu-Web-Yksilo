@@ -14,16 +14,14 @@
         }
       }
     </script>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="index.js" defer></script>
   </head>
   <body>
     <header>
       <nav>
-        <h1>
-          <a href="/app/index.html">
-            <img class="logo" src="/public/logo.png" alt="Logo of the site" />
-          </a>
-        </h1>
+        <a href="/app/index.html">
+          <img class="logo" src="/public/logo.png" alt="Logo of the site" />
+        </a>
         <ul class="nav-links">
           <li><a href="/app/profile/index.html">Profiili</a></li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
@@ -32,7 +30,16 @@
     </header>
     <main>
       <div id="cards-map-container">
-        <aside id="cards-container"></aside>
+        <aside id="cards-container">
+          <div id="restaurant-modal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <h2 id="modal-title"></h2>
+              <p id="modal-address"></p>
+              <div id="modal-menu"></div>
+            </div>
+          </div>
+        </aside>
         <section id="map-container">
           <div class="map-controls">
             <!-- Google Place Autocomplete -->
