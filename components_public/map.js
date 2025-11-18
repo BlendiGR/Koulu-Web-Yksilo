@@ -6,6 +6,7 @@ let subscribers = new Set();
 let currentMarkers = [];
 let ownLocationMarker = null;
 let mapInstance; // <gmp-map>
+let currentCenter;
 
 export async function initMap() {
   mapInstance = document.querySelector("gmp-map");
@@ -14,10 +15,13 @@ export async function initMap() {
     return;
   }
 
+  mapInstance.setAttribute("disable-default-ui", "true");
+  mapInstance.setAttribute("map-type-control", "false");
+  mapInstance.setAttribute("street-view-control", "false");
+  mapInstance.setAttribute("zoom-control", "false");
+
   const autocompleteInput = document.getElementById("autocomplete-input");
   const autocomplete = new google.maps.places.Autocomplete(autocompleteInput);
-
-  let currentCenter = parseCenterAttr(mapInstance.getAttribute("center"));
 
   autocomplete.addListener("place_changed", () => {
     const place = autocomplete.getPlace();
@@ -41,7 +45,6 @@ export async function initMap() {
     displayMarkers(allRestaurantData);
     setVisibleRestaurantData(allRestaurantData);
 
-    // Search UI
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
     const clearSearchButton = document.getElementById("clear-search-button");
@@ -56,14 +59,6 @@ export async function initMap() {
   }
 }
 
-function parseCenterAttr(attr) {
-  if (!attr) return null;
-  const [latStr, lngStr] = attr.split(",").map((s) => s.trim());
-  const lat = parseFloat(latStr),
-    lng = parseFloat(lngStr);
-  return Number.isFinite(lat) && Number.isFinite(lng) ? { lat, lng } : null;
-}
-
 function clearMarkers() {
   currentMarkers.forEach((m) => m.remove?.());
   currentMarkers = [];
@@ -75,7 +70,6 @@ function displayMarkers(data) {
     if (!item?.location?.coordinates || item.location.coordinates.length < 2)
       return;
     const [lng, lat] = item.location.coordinates;
-    if (!Number.isFinite(lat) || !Number.isFinite(lng)) return;
 
     const marker = document.createElement("gmp-advanced-marker");
     marker.setAttribute("position", `${lat}, ${lng}`);
@@ -130,7 +124,7 @@ function displayOwnLocationMarker(lat, lng) {
 
 export function zoomAndCenterToFitMarkers(lat, lng) {
   mapInstance.setAttribute("center", `${lat}, ${lng}`);
-  mapInstance.setAttribute("zoom", "12");
+  mapInstance.setAttribute("zoom", "16");
 }
 
 function handleSearch() {
@@ -224,7 +218,7 @@ export function onRestaurantsChange(callback) {
   if (typeof visibleRestaurantData !== "undefined") {
     try {
       callback(visibleRestaurantData);
-    } catch (_) {}
+    } catch (error) {}
   }
   return () => subscribers.delete(callback);
 }

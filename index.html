@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="./styles.css" />
     <script type="importmap">
       {
         "imports": {
@@ -13,25 +13,32 @@
         }
       }
     </script>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="./index.js" defer></script>
   </head>
   <body>
     <header>
       <nav>
-        <h1>
-          <a href="/index.html">
-            <img class="logo" src="/public/logo.png" alt="Logo of the site" />
-          </a>
-        </h1>
+        <a href="./index.html">
+          <img class="logo" src="./public/logo.png" alt="Logo of the site" />
+        </a>
         <ul class="nav-links">
-          <li><a href="/login_page/index.html">Kirjaudu</a></li>
-          <li><a href="about.html">Tietoa</a></li>
+          <li><a href="./login_page/index.html">Kirjaudu</a></li>
+          <li><a>Tietoa</a></li>
         </ul>
       </nav>
     </header>
     <main>
       <div id="cards-map-container">
-        <aside id="cards-container"></aside>
+        <aside id="cards-container">
+          <div id="restaurant-modal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <h2 id="modal-title"></h2>
+              <p id="modal-address"></p>
+              <div id="modal-menu"></div>
+            </div>
+          </div>
+        </aside>
         <section id="map-container">
           <div class="map-controls">
             <!-- Google Place Autocomplete -->
@@ -68,7 +75,7 @@
           <gmp-map
             center="65.0121,25.4651"
             zoom="5"
-            map-id="DEMO_MAP_ID"
+            map-id="914bc1b32f958043a488e793"
           ></gmp-map>
         </section>
       </div>

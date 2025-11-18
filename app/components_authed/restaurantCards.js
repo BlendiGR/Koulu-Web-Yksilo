@@ -6,18 +6,41 @@ import {
 import { getDistance } from "geolib";
 
 let ownPos = null;
+let currentRestaurant = null;
+
+const userRaw = localStorage.getItem("user");
+const userData = userRaw ? JSON.parse(userRaw) : null;
+
+let favId = userData?.data?.favouriteRestaurant || null;
+let lastRestaurants = [];
 
 function renderRestaurantCards(restaurants) {
   const container = document.getElementById("cards-container");
   const modal = document.getElementById("restaurant-modal");
   const modalTitle = document.getElementById("modal-title");
-  const closeBtn = modal.querySelector(".close");
   const modalAddress = document.getElementById("modal-address");
   const modalMenu = document.getElementById("modal-menu");
+  const closeBtn = modal.querySelector(".close");
+  const weeklyButton = document.getElementById("weekly-button");
+  const dailyButton = document.getElementById("daily-button");
+  const favoriteButton = document.getElementById("fav-btn");
 
   container.querySelectorAll(".card").forEach((n) => n.remove());
 
-  restaurants.forEach((restaurant) => {
+  const sorted = [...restaurants].sort((a, b) => {
+    if (a._id === favId) return -1;
+    if (b._id === favId) return 1;
+    return 0;
+  });
+
+  favoriteButton.onclick = () => {
+    if (!currentRestaurant || !userData) return;
+    const isFav = favId && currentRestaurant._id === favId;
+    const newFavId = isFav ? "" : currentRestaurant._id;
+    updateFavoriteRestaurant(newFavId);
+  };
+
+  sorted.forEach((restaurant) => {
     const card = document.createElement("div");
     card.className = "card";
 
@@ -44,43 +67,72 @@ function renderRestaurantCards(restaurants) {
     }
     card.appendChild(distance);
 
+    if (restaurant._id === favId) {
+      const star = document.createElement("span");
+      star.textContent = "★";
+      star.className = "fav-star";
+      card.appendChild(star);
+      card.classList.add("favorite-card");
+    }
+
     card.onclick = async () => {
+      currentRestaurant = restaurant;
+
+      if (restaurant._id === favId) {
+        favoriteButton.classList.add("active");
+      } else {
+        favoriteButton.classList.remove("active");
+      }
+
       modalTitle.textContent = restaurant.name;
       modalAddress.textContent = restaurant.address;
       modalMenu.innerHTML = "<p>Ladataan ruokalistaa...</p>";
 
       modal.style.display = "block";
       container.classList.add("is-modal-open");
+      container.scrollTo({ top: 0 });
 
       try {
-        const url = `https://media2.edu.metropolia.fi/api/v1/restaurants/daily/${encodeURIComponent(
-          restaurant._id
-        )}/fi`;
-        const res = await fetch(url, {
-          headers: { Accept: "application/json" },
-        });
-        const data = await res.json();
+        const [dailyCourses, weeklyCourses] = await Promise.all([
+          fetchDailyRestaurants(restaurant._id),
+          fetchWeeklyRestaurants(restaurant._id),
+        ]);
 
-        modalMenu.innerHTML = "";
-        if (!Array.isArray(data) || data.length === 0) {
-          modalMenu.innerHTML = "<p>Ei ruokalistaa tälle ravintolalle.</p>";
-        } else {
-          data.forEach((item) => {
-            const p = document.createElement("p");
-            p.textContent = `${item.name} - ${item.price} €`;
-            modalMenu.appendChild(p);
+        const renderCourses = (courses) => {
+          modalMenu.innerHTML = "";
+          if (!courses || !courses.length) {
+            modalMenu.innerHTML = "<p>Ei ruokalistaa tälle ravintolalle.</p>";
+            return;
+          }
+
+          courses.forEach((course) => {
+            modalMenu.insertAdjacentHTML(
+              "beforeend",
+              `
+              <h2>${course?.name || "Nimetön ruoka"}</h2>
+              <p>Hinta: ${course?.price || "Ei tiedossa"}</p>
+              <p>${course?.diets || "Ei ruokavalioita"}</p>
+            `
+            );
           });
+        };
+
+        if (dailyButton) {
+          dailyButton.onclick = () => renderCourses(dailyCourses);
+        }
+        if (weeklyButton) {
+          weeklyButton.onclick = () => renderCourses(weeklyCourses);
+        }
+
+        renderCourses(dailyCourses);
+
+        if (restaurant.location?.coordinates) {
+          const [lng, lat] = restaurant.location.coordinates;
+          zoomAndCenterToFitMarkers(lat, lng);
         }
       } catch (err) {
+        console.error("Ruokalistan haku epäonnistui:", err);
         modalMenu.innerHTML = "<p>Virhe ruokalistan haussa.</p>";
-        console.error(err);
-      }
-
-      if (restaurant.location?.coordinates) {
-        zoomAndCenterToFitMarkers(
-          restaurant.location.coordinates[1],
-          restaurant.location.coordinates[0]
-        );
       }
     };
 
@@ -90,6 +142,9 @@ function renderRestaurantCards(restaurants) {
   function closeModal() {
     modal.style.display = "none";
     container.classList.remove("is-modal-open");
+    modalMenu.innerHTML = "";
+    currentRestaurant = null;
+    favoriteButton.classList.remove("active");
   }
 
   closeBtn.onclick = closeModal;
@@ -100,10 +155,88 @@ function renderRestaurantCards(restaurants) {
 }
 
 onRestaurantsChange((restaurants, location) => {
-  if (location) ownPos = location;
-  else {
+  lastRestaurants = restaurants;
+
+  if (location) {
+    ownPos = location;
+  } else {
     const coords = getOwnLocationCordinates();
     if (coords) ownPos = coords;
   }
+
   renderRestaurantCards(restaurants);
 });
+
+const fetchDailyRestaurants = async (id) => {
+  try {
+    const url = `https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants/daily/${encodeURIComponent(
+      id
+    )}/fi`;
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.courses || null;
+  } catch (err) {
+    console.error("Päivittäisen ruokalistan haku epäonnistui:", err);
+    return null;
+  }
+};
+
+const fetchWeeklyRestaurants = async (id) => {
+  try {
+    const url = `https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants/weekly/${encodeURIComponent(
+      id
+    )}/fi`;
+    const res = await fetch(url, { headers: { Accept: "application/json" } });
+    if (!res.ok) return null;
+    const data = await res.json();
+    return data?.courses || null;
+  } catch (err) {
+    console.error("Viikoittaisen ruokalistan haku epäonnistui:", err);
+    return null;
+  }
+};
+
+const updateFavoriteRestaurant = async (newFavId) => {
+  if (!userData) return;
+
+  try {
+    const response = await fetch(
+      "https://media2.edu.metropolia.fi/restaurant/api/v1/users",
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userData.token}`,
+        },
+        body: JSON.stringify({
+          favouriteRestaurant: newFavId || "",
+        }),
+      }
+    );
+
+    if (!response.ok) throw new Error("Failed updating favorite");
+
+    const data = await response.json();
+    console.log("Favorite updated:", data);
+
+    favId = newFavId || null;
+    userData.data.favouriteRestaurant = favId;
+    localStorage.setItem("user", JSON.stringify(userData));
+
+    if (currentRestaurant) {
+      const favBtn = document.getElementById("fav-btn");
+      if (favId && currentRestaurant._id === favId) {
+        favBtn.classList.add("active");
+      } else {
+        favBtn.classList.remove("active");
+      }
+    }
+
+    if (lastRestaurants.length) {
+      renderRestaurantCards(lastRestaurants);
+    }
+  } catch (err) {
+    console.error(err);
+  }
+};

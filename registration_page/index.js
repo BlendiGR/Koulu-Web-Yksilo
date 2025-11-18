@@ -99,7 +99,6 @@ async function fetchUsernameAvailability(username) {
 
 function showAlert(message, color = "red") {
   const el = document.getElementById("error-message");
-  if (!el) return;
   el.textContent = message;
   el.style.color = color;
 }

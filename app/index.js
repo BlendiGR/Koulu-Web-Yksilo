@@ -1,14 +1,19 @@
 import "./components_authed/map.js";
 import "./components_authed/restaurantCards.js";
 
-let userData = loadUserNameAndAvatar();
+const userRaw = localStorage.getItem("user");
+export const userData = JSON.parse(userRaw);
+console.log(userData);
 
-export function loadUserNameAndAvatar() {
-  const stored = localStorage.getItem("user");
-  if (!stored) return null;
-  try {
-    return JSON.parse(stored);
-  } catch {
-    return null;
+const profilePic = () => {
+  const avatarImgNav = document.getElementById("profile-avatar-nav");
+  if (userData.data.avatar) {
+    avatarImgNav.src = `http://media2.edu.metropolia.fi/restaurant/uploads/${encodeURIComponent(
+      userData.data.avatar
+    )}`;
+  } else {
+    avatarImgNav.src = "/public/avatar.jpg";
   }
-}
+};
+
+profilePic();

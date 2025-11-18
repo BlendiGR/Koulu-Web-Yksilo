@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
+    <base href=" " target="_blank" />
     <link rel="stylesheet" href="/styles.css" />
-    <script src="../_guard.js"></script>
+    <script src="./guard.js"></script>
     <script type="importmap">
       {
         "imports": {
@@ -23,6 +24,9 @@
           <img class="logo" src="/public/logo.png" alt="Logo of the site" />
         </a>
         <ul class="nav-links">
+          <li>
+            <img id="profile-avatar-nav" alt="avatar" />
+          </li>
           <li><a href="/app/profile/index.html">Profiili</a></li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
@@ -33,6 +37,13 @@
         <aside id="cards-container">
           <div id="restaurant-modal" class="modal">
             <div class="modal-content">
+              <div class="modal-buttons">
+                <button id="weekly-button">Weekly</button>
+                <button id="daily-button">Daily</button>
+                <span class="fav-wrapper">
+                  <button id="fav-btn">★</button>
+                </span>
+              </div>
               <span class="close">&times;</span>
               <h2 id="modal-title"></h2>
               <p id="modal-address"></p>
@@ -76,7 +87,7 @@
           <gmp-map
             center="65.0121,25.4651"
             zoom="5"
-            map-id="DEMO_MAP_ID"
+            map-id="914bc1b32f958043a488e793"
           ></gmp-map>
         </section>
       </div>
@@ -98,7 +109,7 @@
       };
     </script>
     <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta&map-id=914bc1b32f958043a488e793"
       async
       defer
     ></script>

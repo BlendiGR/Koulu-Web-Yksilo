@@ -30,10 +30,8 @@ form.addEventListener("submit", async (e) => {
       showAlert(data.message || "Kirjautuminen epäonnistui.");
       return;
     }
-
-    localStorage.setItem("authToken", data.token);
-    localStorage.setItem("user", JSON.stringify(data.data));
-
+    console.log(data);
+    localStorage.setItem("user", JSON.stringify(data));
     showAlert("Kirjautuminen onnistui!", "green");
 
     setTimeout(() => {
