@@ -1,0 +1,217 @@
+/* Cards & map layout */
+
+#cards-map-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 70px);
+  gap: 16px;
+  padding: 10px 20px 20px;
+  box-sizing: border-box;
+}
+
+#cards-container {
+  position: relative;
+  overflow-y: auto;
+  background: #f8f8f8;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  padding: 12px;
+}
+
+#cards-container.is-modal-open {
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+#map-container {
+  position: relative;
+  border: 1px solid #999999;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+gmp-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+gmp-map .gm-style-mtc-bbw {
+  display: none;
+}
+
+.map-controls {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #ddd;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  box-sizing: border-box;
+}
+
+#autocomplete-input,
+#search-input {
+  width: 100%;
+  max-width: 230px;
+  padding: 8px;
+  border: 1.5px solid #121212;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+#search-button,
+#clear-search-button {
+  background-color: #121212;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+#search-button:hover,
+#clear-search-button:hover {
+  background-color: #cd4527;
+}
+
+#distance-info {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  color: #555;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.autocomplete-container,
+.search-container {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  max-width: 250px;
+}
+
+/* Help icon & tooltip */
+
+#help-icon {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ccc;
+  color: #000;
+  text-align: center;
+  line-height: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tooltip-text {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 125%;
+  right: 10%;
+  background: #333;
+  color: #fff;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+  z-index: 5000;
+}
+
+#help-icon:hover ~ .tooltip-text,
+#help-icon:focus ~ .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+  z-index: 99999;
+}
+
+@media (max-width: 1024px) {
+  #cards-map-container {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: calc(100vh - 70px);
+  }
+
+  #map-container,
+  #cards-container {
+    height: 50vh;
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  #cards-map-container {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  #map-container {
+    height: 50vh;
+    min-height: 300px;
+    margin-bottom: 0;
+  }
+
+  .map-controls {
+    top: auto;
+    bottom: 0;
+    flex-direction: column;
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .autocomplete-container,
+  .search-container {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #autocomplete-input,
+  #search-input {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  #cards-container {
+    height: 50vh;
+    min-height: 300px;
+  }
+
+  #distance-info {
+    top: auto;
+    bottom: 10px;
+    right: 10px;
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  #autocomplete-input,
+  #search-input {
+    max-width: 96%;
+    width: 100%;
+  }
+}
+

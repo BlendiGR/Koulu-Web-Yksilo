@@ -1,24 +1,15 @@
 import { getDistance } from "geolib";
+import { fetchRestaurants } from "../api/restaurantsApi.js";
 
 let allRestaurantData = [];
 let visibleRestaurantData = [];
 let subscribers = new Set();
 let currentMarkers = [];
 let ownLocationMarker = null;
-let mapInstance; // <gmp-map>
-let currentCenter;
+let mapInstance;
 
 export async function initMap() {
   mapInstance = document.querySelector("gmp-map");
-  if (!mapInstance) {
-    console.error("Map element not found!");
-    return;
-  }
-
-  mapInstance.setAttribute("disable-default-ui", "true");
-  mapInstance.setAttribute("map-type-control", "false");
-  mapInstance.setAttribute("street-view-control", "false");
-  mapInstance.setAttribute("zoom-control", "false");
 
   const autocompleteInput = document.getElementById("autocomplete-input");
   const autocomplete = new google.maps.places.Autocomplete(autocompleteInput);
@@ -28,7 +19,7 @@ export async function initMap() {
     const loc = place?.geometry?.location;
     if (!loc) return;
 
-    currentCenter = { lat: loc.lat(), lng: loc.lng() };
+    const currentCenter = { lat: loc.lat(), lng: loc.lng() };
     zoomAndCenterToFitMarkers(currentCenter.lat, currentCenter.lng);
     displayOwnLocationMarker(currentCenter.lat, currentCenter.lng);
     const ordered = orderByProximity(visibleRestaurantData);
@@ -36,11 +27,7 @@ export async function initMap() {
   });
 
   try {
-    const res = await fetch(
-      "https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants"
-    );
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    allRestaurantData = await res.json();
+    allRestaurantData = await fetchRestaurants();
 
     displayMarkers(allRestaurantData);
     setVisibleRestaurantData(allRestaurantData);
@@ -48,12 +35,12 @@ export async function initMap() {
     const searchInput = document.getElementById("search-input");
     const searchButton = document.getElementById("search-button");
     const clearSearchButton = document.getElementById("clear-search-button");
+
     searchButton.addEventListener("click", handleSearch);
     clearSearchButton.addEventListener("click", handleClearSearch);
-    searchInput.addEventListener(
-      "keypress",
-      (e) => e.key === "Enter" && handleSearch()
-    );
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") handleSearch();
+    });
   } catch (err) {
     console.error("Init error:", err);
   }
@@ -67,8 +54,9 @@ function clearMarkers() {
 function displayMarkers(data) {
   clearMarkers();
   data.forEach((item) => {
-    if (!item?.location?.coordinates || item.location.coordinates.length < 2)
+    if (!item?.location?.coordinates || item.location.coordinates.length < 2) {
       return;
+    }
     const [lng, lat] = item.location.coordinates;
 
     const marker = document.createElement("gmp-advanced-marker");
@@ -102,8 +90,6 @@ function displayMarkers(data) {
     currentMarkers.push(marker);
   });
 }
-
-/// HELPERS
 
 function displayOwnLocationMarker(lat, lng) {
   if (ownLocationMarker) {
@@ -188,7 +174,7 @@ function orderByProximity(data) {
   const loc = getOwnLocationCordinates();
   if (!loc) return data;
 
-  return data.sort((a, b) => {
+  return data.slice().sort((a, b) => {
     const [lngA, latA] = a.location?.coordinates || [];
     const [lngB, latB] = b.location?.coordinates || [];
 
@@ -218,7 +204,10 @@ export function onRestaurantsChange(callback) {
   if (typeof visibleRestaurantData !== "undefined") {
     try {
       callback(visibleRestaurantData);
-    } catch (error) {}
+    } catch (error) {
+      // ignore subscriber errors
+    }
   }
   return () => subscribers.delete(callback);
 }
+

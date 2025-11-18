@@ -1,0 +1,98 @@
+/* Global base styles */
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #fdfdfd;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fdfdfd;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px 20px;
+}
+
+.logo {
+  height: 50px;
+  object-fit: contain;
+  transition: transform 0.15s ease;
+}
+
+.logo:hover {
+  transform: scale(1.025);
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links a {
+  background-color: #121212;
+  color: white;
+  padding: 10px 15px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.15s ease;
+  white-space: nowrap;
+}
+
+.nav-links a:hover {
+  background-color: #cd4527;
+  cursor: pointer;
+}
+
+#profile-avatar-nav {
+  display: block;
+  border-radius: 50%;
+  max-width: 50px;
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
+
+/* Responsive tweaks (global) */
+
+@media (max-width: 768px) {
+  nav {
+    padding: 8px 12px;
+  }
+
+  .logo {
+    height: 40px;
+  }
+
+  .nav-links {
+    gap: 10px;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo {
+    height: 35px;
+  }
+
+  .nav-links {
+    gap: 6px;
+  }
+
+  .nav-links a {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}

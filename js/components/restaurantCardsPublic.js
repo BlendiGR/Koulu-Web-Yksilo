@@ -2,8 +2,9 @@ import {
   onRestaurantsChange,
   getOwnLocationCordinates,
   zoomAndCenterToFitMarkers,
-} from "./map.js";
+} from "./mapPublic.js";
 import { getDistance } from "geolib";
+import { fetchDailyMenu } from "../api/restaurantsApi.js";
 
 let ownPos = null;
 
@@ -14,6 +15,7 @@ function renderRestaurantCards(restaurants) {
   const closeBtn = modal.querySelector(".close");
   const modalAddress = document.getElementById("modal-address");
   const modalMenu = document.getElementById("modal-menu");
+
   container.querySelectorAll(".card").forEach((n) => n.remove());
 
   restaurants.forEach((restaurant) => {
@@ -55,17 +57,10 @@ function renderRestaurantCards(restaurants) {
       });
 
       try {
-        const url = `https://media2.edu.metropolia.fi/restaurant/api/v1/restaurants/daily/${encodeURIComponent(
-          restaurant._id
-        )}/en`;
-        const res = await fetch(url, {
-          headers: { Accept: "application/json" },
-        });
-        const data = await res.json();
-        const courses = data.courses;
+        const courses = await fetchDailyMenu(restaurant._id, "en");
 
         modalMenu.innerHTML = "";
-        if (courses) {
+        if (courses && courses.length) {
           courses.forEach((course) => {
             modalMenu.insertAdjacentHTML(
               "beforeend",
@@ -115,3 +110,4 @@ onRestaurantsChange((restaurants, location) => {
   }
   renderRestaurantCards(restaurants);
 });
+

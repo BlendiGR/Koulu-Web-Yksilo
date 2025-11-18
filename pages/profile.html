@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
-    <link rel="stylesheet" href="/styles.css" />
-    <script src="../guard.js"></script>
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/pages/profile.css" />
     <script type="importmap">
       {
         "imports": {
@@ -14,13 +14,13 @@
         }
       }
     </script>
-    <script type="module" src="index.js"></script>
+    <script type="module" src="/js/main.js"></script>
   </head>
-  <body>
+  <body data-page="profile">
     <header>
       <nav>
         <h1>
-          <a href="../index.html">
+          <a href="/pages/app.html">
             <img class="logo" src="/public/logo.png" alt="Logo of the site" />
           </a>
         </h1>
@@ -29,7 +29,7 @@
             <img id="profile-avatar-nav" alt="Profile avatar" />
           </li>
           <li>
-            <a href="../index.html">Etusivu</a>
+            <a href="/pages/app.html">Etusivu</a>
           </li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
@@ -65,11 +65,5 @@
       <p>&copy; <span id="year"></span></p>
     </footer>
   </body>
-  <script>
-    const logoutBtn = document.getElementById("logout-button");
-    logoutBtn.addEventListener("click", () => {
-      localStorage.clear();
-      window.location.href = "/index.html";
-    });
-  </script>
 </html>
+

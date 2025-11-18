@@ -1,0 +1,11 @@
+/* Register page specific fields */
+
+#confirm-password-field,
+#email-field {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 6px;
+  margin: 0;
+}
+

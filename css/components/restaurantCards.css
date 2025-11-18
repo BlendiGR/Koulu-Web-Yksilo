@@ -1,0 +1,42 @@
+/* Restaurant cards */
+
+.card {
+  position: relative;
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  padding: 12px;
+  margin-bottom: 12px;
+  transition: border 0.15s ease;
+  border: 2px solid transparent;
+}
+
+.card:hover {
+  border-color: #cd4527;
+  cursor: pointer;
+}
+
+.fav-star {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 40px;
+  color: #f5c518;
+  pointer-events: none;
+}
+
+.favorite-card {
+  border: 1px solid #f5c518;
+  box-shadow: 0 0 10px rgba(245, 197, 24, 0.4);
+}
+
+.favorite-card:hover {
+  box-shadow: 0 0 16px rgba(245, 197, 24, 0.7);
+  transform: translateY(-2px);
+}
+
+.distance-info {
+  font-size: 0.9rem;
+  color: #555;
+}
+

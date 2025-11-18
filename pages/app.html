@@ -6,8 +6,13 @@
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
     <base href=" " target="_blank" />
-    <link rel="stylesheet" href="/styles.css" />
-    <script src="./guard.js"></script>
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/pages/home.css" />
+    <link rel="stylesheet" href="/css/components/restaurantCards.css" />
+    <link
+      rel="stylesheet"
+      href="/css/components/restaurantMenuModal.css"
+    />
     <script type="importmap">
       {
         "imports": {
@@ -15,19 +20,19 @@
         }
       }
     </script>
-    <script type="module" src="index.js" defer></script>
+    <script type="module" src="/js/main.js"></script>
   </head>
-  <body>
+  <body data-page="app-home">
     <header>
       <nav>
-        <a href="/app/index.html">
+        <a href="/pages/app.html">
           <img class="logo" src="/public/logo.png" alt="Logo of the site" />
         </a>
         <ul class="nav-links">
           <li>
             <img id="profile-avatar-nav" alt="avatar" />
           </li>
-          <li><a href="/app/profile/index.html">Profiili</a></li>
+          <li><a href="/pages/profile.html">Profiili</a></li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
       </nav>
@@ -99,7 +104,7 @@
     <script>
       window.initMap = async function () {
         try {
-          const mod = await import("./components_authed/map.js");
+          const mod = await import("/js/components/mapAuthed.js");
           if (mod && typeof mod.initMap === "function") {
             await mod.initMap();
           }
@@ -113,12 +118,6 @@
       async
       defer
     ></script>
-    <script>
-      const logoutBtn = document.getElementById("logout-button");
-      logoutBtn.addEventListener("click", () => {
-        localStorage.clear();
-        window.location.href = "/index.html";
-      });
-    </script>
   </body>
 </html>
+
