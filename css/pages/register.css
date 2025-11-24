@@ -1,5 +1,3 @@
-/* Register page specific fields */
-
 #confirm-password-field,
 #email-field {
   display: flex;
@@ -8,4 +6,3 @@
   gap: 6px;
   margin: 0;
 }
-

@@ -6,7 +6,7 @@ import {
   UPLOADS_BASE,
 } from "../api/usersApi.js";
 
-export async function initProfilePage() {
+(async function initProfilePage() {
   const userData = await ensureAuthenticated();
   if (!userData) return;
 
@@ -22,7 +22,7 @@ export async function initProfilePage() {
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear().toString();
   }
-}
+})();
 
 function renderProfileHeader(userData) {
   const username = document.createElement("h2");
@@ -51,8 +51,8 @@ function setupAvatar(userData) {
     avatarImg.src = url;
     avatarImgNav.src = url;
   } else {
-    avatarImg.src = "/public/avatar.jpg";
-    avatarImgNav.src = "/public/avatar.jpg";
+    avatarImg.src = "../public/avatar.jpg";
+    avatarImgNav.src = "../public/avatar.jpg";
   }
 }
 
@@ -77,6 +77,7 @@ function setupAvatarForm(token) {
 
       const storedRaw = localStorage.getItem("user");
       const stored = storedRaw ? JSON.parse(storedRaw) : null;
+
       if (stored) {
         stored.data = freshUserData;
         localStorage.setItem("user", JSON.stringify(stored));
@@ -95,22 +96,35 @@ function setupAvatarForm(token) {
     } catch (err) {
       console.error("profile update error:", err);
       localStorage.removeItem("user");
-      window.location.href = "/pages/login.html";
+      window.location.href = "./login.html";
     }
   });
 }
 
 function setupDeleteAccount(token) {
-  const deleteButton = document.getElementById("delete-account-btn");
-  if (!deleteButton) return;
+  const modal = document.getElementById("top-modal");
+  const backdrop = document.getElementById("modal-backdrop");
 
-  deleteButton.addEventListener("click", async () => {
+  document.getElementById("delete-account-btn").onclick = () => {
+    modal.style.display = "block";
+    backdrop.style.display = "block";
+  };
+
+  document.getElementById("no-modal").onclick = () => {
+    modal.style.display = "none";
+    backdrop.style.display = "none";
+  };
+
+  document.getElementById("yes-modal").onclick = async () => {
     try {
-      await deleteUserByToken(token);
+      const res = await deleteUserByToken(token);
+      if (res.ok) {
+        window.location.href = "../index.html";
+      }
     } catch (err) {
       console.error("Delete account failed:", err);
     }
-  });
+  };
 }
 
 function setupLogout() {
@@ -119,6 +133,6 @@ function setupLogout() {
 
   logoutBtn.addEventListener("click", () => {
     localStorage.clear();
-    window.location.href = "/index.html";
+    window.location.href = "../index.html";
   });
 }

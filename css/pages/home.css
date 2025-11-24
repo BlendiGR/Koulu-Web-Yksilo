@@ -1,5 +1,3 @@
-/* Cards & map layout */
-
 #cards-map-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -9,26 +7,17 @@
   box-sizing: border-box;
 }
 
+#cards-panel {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+
 #cards-container {
-  position: relative;
+  height: 100%;
   overflow-y: auto;
-  background: #f8f8f8;
-  border: 1px solid #e5e5e5;
-  border-radius: 6px;
   padding: 12px;
-}
-
-#cards-container.is-modal-open {
-  overflow: hidden;
-  overscroll-behavior: contain;
-}
-
-#map-container {
-  position: relative;
-  border: 1px solid #999999;
-  border-radius: 6px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  background: #f8f8f8;
 }
 
 gmp-map {
@@ -42,48 +31,31 @@ gmp-map .gm-style-mtc-bbw {
 }
 
 .map-controls {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 2;
   display: flex;
-  justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
   width: 100%;
-  gap: 8px;
-  padding: 10px 12px;
-  border-bottom: 1px solid #ddd;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(6px);
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
   box-sizing: border-box;
 }
 
 #autocomplete-input,
-#search-input {
+#search-input,
+#city-filter {
   width: 100%;
-  max-width: 230px;
-  padding: 8px;
+  max-width: none;
+  padding: 10px 12px;
+  min-height: 44px;
   border: 1.5px solid #121212;
   border-radius: 4px;
   font-size: 15px;
-}
-
-#search-button,
-#clear-search-button {
-  background-color: #121212;
-  color: white;
-  padding: 8px 14px;
-  border-radius: 5px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.15s ease;
-  white-space: nowrap;
-}
-
-#search-button:hover,
-#clear-search-button:hover {
-  background-color: #cd4527;
+  background: #fff;
+  box-sizing: border-box;
 }
 
 #distance-info {
@@ -98,16 +70,17 @@ gmp-map .gm-style-mtc-bbw {
 }
 
 .autocomplete-container,
-.search-container {
+.search-container,
+.city-select-container {
   position: relative;
   display: inline-block;
   width: 100%;
   max-width: 250px;
+  height: auto;
 }
-
 /* Help icon & tooltip */
 
-#help-icon {
+.help-icon {
   position: absolute;
   right: 8px;
   top: 50%;
@@ -174,23 +147,27 @@ gmp-map .gm-style-mtc-bbw {
   }
 
   .map-controls {
-    top: auto;
-    bottom: 0;
     flex-direction: column;
-    padding: 12px;
-    gap: 8px;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  #cards-panel {
+    gap: 10px;
   }
 
   .autocomplete-container,
-  .search-container {
-    max-width: 100%;
+  .search-container,
+  .city-select-container {
+    max-width: none;
     width: 100%;
   }
 
   #autocomplete-input,
-  #search-input {
-    max-width: 100%;
-    width: 100%;
+  #search-input,
+  #city-filter {
+    min-height: 48px;
+    font-size: 16px;
   }
 
   #cards-container {
@@ -206,12 +183,3 @@ gmp-map .gm-style-mtc-bbw {
     padding: 4px 6px;
   }
 }
-
-@media (max-width: 480px) {
-  #autocomplete-input,
-  #search-input {
-    max-width: 96%;
-    width: 100%;
-  }
-}
-

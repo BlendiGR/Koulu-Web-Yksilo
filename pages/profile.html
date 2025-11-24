@@ -5,23 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
-    <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/pages/profile.css" />
-    <script type="importmap">
-      {
-        "imports": {
-          "geolib": "https://esm.sh/geolib@3.3.4"
-        }
-      }
-    </script>
-    <script type="module" src="/js/main.js"></script>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/pages/profile.css" />
+
+    <script type="module" src="../js/pages/profilePage.js"></script>
   </head>
   <body data-page="profile">
     <header>
       <nav>
         <h1>
-          <a href="/pages/app.html">
-            <img class="logo" src="/public/logo.png" alt="Logo of the site" />
+          <a href="./app.html">
+            <img class="logo" src="../public/logo.png" alt="Logo of the site" />
           </a>
         </h1>
         <ul class="nav-links">
@@ -29,7 +23,7 @@
             <img id="profile-avatar-nav" alt="Profile avatar" />
           </li>
           <li>
-            <a href="/pages/app.html">Etusivu</a>
+            <a href="./app.html">Etusivu</a>
           </li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
@@ -55,15 +49,17 @@
           <input type="file" id="file" name="avatar" required />
           <button type="submit">Upload</button>
         </form>
+        <div id="modal-backdrop"></div>
+        <div id="top-modal">
+          <p>Oletko varma, että haluat poistaa tilisi?</p>
+          <button id="yes-modal">Kyllä</button>
+          <button id="no-modal">Ei</button>
+        </div>
         <div id="delete-section">
           <p>Haluatko poistaa tilisi?</p>
           <button id="delete-account-btn">Poista tili</button>
         </div>
       </div>
     </main>
-    <footer>
-      <p>&copy; <span id="year"></span></p>
-    </footer>
   </body>
 </html>
-

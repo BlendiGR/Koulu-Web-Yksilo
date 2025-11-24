@@ -39,6 +39,5 @@ export async function fetchWeeklyMenu(restaurantId, language = "fi") {
   }
 
   const data = await res.json();
-  return data?.courses || null;
+  return data?.days || data?.courses || null;
 }
-

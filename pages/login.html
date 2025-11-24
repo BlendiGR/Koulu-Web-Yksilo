@@ -1,33 +1,26 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fi">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
-    <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/pages/login.css" />
-    <link rel="stylesheet" href="/css/pages/register.css" />
-    <script type="importmap">
-      {
-        "imports": {
-          "geolib": "https://esm.sh/geolib@3.3.4"
-        }
-      }
-    </script>
-    <script type="module" src="/js/main.js"></script>
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/pages/login.css" />
+    <link rel="stylesheet" href="../css/pages/register.css" />
+
+    <script type="module" src="../js/pages/loginPage.js"></script>
   </head>
   <body data-page="login">
     <header>
       <nav>
         <h1>
-          <a href="/index.html">
-            <img class="logo" src="/public/logo.png" alt="Logo of the site" />
+          <a href="../index.html">
+            <img class="logo" src="../public/logo.png" alt="Logo of the site" />
           </a>
         </h1>
         <ul class="nav-links">
-          <li><a href="/index.html">Etusivu</a></li>
-          <li><a href="#">Tietoa</a></li>
+          <li><a href="../index.html">Etusivu</a></li>
         </ul>
       </nav>
     </header>
@@ -49,14 +42,11 @@
           <button type="submit">Kirjaudu</button>
 
           <div class="register-wrapper">
-            <p>Et ole vielä rekisteröitynyt käyttäjäksi?</p>
-            <a href="/pages/register.html" id="register-link">Rekisteröidy</a>
+            <p>Et ole vielä rekisteröitynt käyttäjäksi?</p>
+            <a href="./register.html" id="register-link">Rekisteröidy</a>
           </div>
         </form>
       </div>
     </main>
-    <footer>
-      <p>&copy; <span id="year"></span></p>
-    </footer>
   </body>
 </html>

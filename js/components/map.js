@@ -10,15 +10,6 @@ let mapInstance;
 
 export async function initMap() {
   mapInstance = document.querySelector("gmp-map");
-  if (!mapInstance) {
-    console.error("Map element not found!");
-    return;
-  }
-
-  mapInstance.setAttribute("disable-default-ui", "true");
-  mapInstance.setAttribute("map-type-control", "false");
-  mapInstance.setAttribute("street-view-control", "false");
-  mapInstance.setAttribute("zoom-control", "false");
 
   const autocompleteInput = document.getElementById("autocomplete-input");
   const autocomplete = new google.maps.places.Autocomplete(autocompleteInput);
@@ -42,14 +33,48 @@ export async function initMap() {
     setVisibleRestaurantData(allRestaurantData);
 
     const searchInput = document.getElementById("search-input");
-    const searchButton = document.getElementById("search-button");
-    const clearSearchButton = document.getElementById("clear-search-button");
+    const citySelect = document.getElementById("city-filter");
 
-    searchButton.addEventListener("click", handleSearch);
-    clearSearchButton.addEventListener("click", handleClearSearch);
-    searchInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") handleSearch();
-    });
+    const applyFilters = () => {
+      const query = (searchInput?.value ?? "").toLowerCase().trim();
+      const selectedCity = (citySelect?.value ?? "").toLowerCase();
+
+      const filtered = allRestaurantData.filter((item) => {
+        const hay = [
+          item.name,
+          item.address,
+          item.city,
+          item.postalCode,
+          item.company,
+          item.phone,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase();
+
+        const matchesQuery = !query || hay.includes(query);
+        const matchesCity =
+          !selectedCity || (item.city ?? "").toLowerCase() === selectedCity;
+        return matchesQuery && matchesCity;
+      });
+
+      const ordered = orderByProximity(filtered);
+      setVisibleRestaurantData(ordered);
+      displayMarkers(ordered);
+
+      if (
+        ordered.length > 0 &&
+        ordered[0]?.location?.coordinates?.length >= 2
+      ) {
+        const [lng, lat] = ordered[0].location.coordinates;
+        if (Number.isFinite(lat) && Number.isFinite(lng)) {
+          zoomAndCenterToFitMarkers(lat, lng);
+        }
+      }
+    };
+
+    searchInput?.addEventListener("input", applyFilters);
+    citySelect?.addEventListener("change", applyFilters);
   } catch (err) {
     console.error("Init error:", err);
   }
@@ -66,7 +91,6 @@ function displayMarkers(data) {
     if (!item?.location?.coordinates || item.location.coordinates.length < 2) {
       return;
     }
-
     const [lng, lat] = item.location.coordinates;
 
     const marker = document.createElement("gmp-advanced-marker");
@@ -123,50 +147,6 @@ export function zoomAndCenterToFitMarkers(lat, lng) {
   mapInstance.setAttribute("zoom", "16");
 }
 
-function handleSearch() {
-  const el = document.getElementById("search-input");
-  const query = (el?.value ?? "").toLowerCase().trim();
-
-  if (!query) {
-    displayMarkers(allRestaurantData);
-    return;
-  }
-
-  const filtered = allRestaurantData.filter((item) => {
-    const hay = [
-      item.name,
-      item.address,
-      item.city,
-      item.postalCode,
-      item.company,
-      item.phone,
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-    return hay.includes(query);
-  });
-
-  const ordered = orderByProximity(filtered);
-  setVisibleRestaurantData(ordered);
-  displayMarkers(ordered);
-
-  if (ordered.length > 0 && ordered[0]?.location?.coordinates?.length >= 2) {
-    const [lng, lat] = ordered[0].location.coordinates;
-    if (Number.isFinite(lat) && Number.isFinite(lng)) {
-      zoomAndCenterToFitMarkers(lat, lng);
-    }
-  }
-}
-
-function handleClearSearch() {
-  const el = document.getElementById("search-input");
-  if (el) el.value = "";
-
-  displayMarkers(allRestaurantData);
-  setVisibleRestaurantData(allRestaurantData);
-}
-
 export function getOwnLocationCordinates() {
   if (ownLocationMarker) {
     const positionString = ownLocationMarker.getAttribute("position");
@@ -214,10 +194,7 @@ export function onRestaurantsChange(callback) {
   if (typeof visibleRestaurantData !== "undefined") {
     try {
       callback(visibleRestaurantData);
-    } catch (error) {
-      // ignore subscriber errors
-    }
+    } catch (error) {}
   }
   return () => subscribers.delete(callback);
 }
-

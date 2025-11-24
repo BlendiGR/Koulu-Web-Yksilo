@@ -1,6 +1,6 @@
-import { verifyToken } from "../api/authApi.js";
+﻿import { verifyToken } from "../api/authApi.js";
 
-const LOGIN_URL = "/pages/login.html";
+const LOGIN_URL = "./login.html";
 
 export async function ensureAuthenticated() {
   const userRaw = localStorage.getItem("user");

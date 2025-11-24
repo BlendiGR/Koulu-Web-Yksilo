@@ -80,7 +80,12 @@ export async function updateFavoriteRestaurant(token, favouriteRestaurantId) {
 }
 
 export async function deleteUserByToken(token) {
-  const res = await fetch(`${API_BASE}/${encodeURIComponent(token)}`);
+  const res = await fetch(`${API_BASE}/users`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
   if (!res.ok) {
     throw new Error("Failed to delete user");
@@ -88,4 +93,3 @@ export async function deleteUserByToken(token) {
 
   return res;
 }
-

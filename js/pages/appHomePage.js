@@ -1,9 +1,9 @@
-import "../components/mapAuthed.js";
+import "../components/map.js";
 import "../components/restaurantCardsAuthed.js";
 import { ensureAuthenticated } from "../components/authGuard.js";
 import { UPLOADS_BASE } from "../api/usersApi.js";
 
-export async function initAppHomePage() {
+(async function initAppHomePage() {
   const userData = await ensureAuthenticated();
   if (!userData) return;
 
@@ -14,7 +14,7 @@ export async function initAppHomePage() {
         userData.data.avatar
       )}`;
     } else {
-      avatarImgNav.src = "/public/avatar.jpg";
+      avatarImgNav.src = "../public/avatar.jpg";
     }
   }
 
@@ -22,7 +22,7 @@ export async function initAppHomePage() {
   if (logoutBtn) {
     logoutBtn.addEventListener("click", () => {
       localStorage.clear();
-      window.location.href = "/index.html";
+      window.location.href = "../index.html";
     });
   }
 
@@ -30,5 +30,4 @@ export async function initAppHomePage() {
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear().toString();
   }
-}
-
+})();

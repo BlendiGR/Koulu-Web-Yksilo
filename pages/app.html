@@ -5,14 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Koulu Projekti</title>
     <meta name="description" content="Start of the web project" />
-    <base href=" " target="_blank" />
-    <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/pages/home.css" />
-    <link rel="stylesheet" href="/css/components/restaurantCards.css" />
-    <link
-      rel="stylesheet"
-      href="/css/components/restaurantMenuModal.css"
-    />
+    <link rel="stylesheet" href="../css/global.css" />
+    <link rel="stylesheet" href="../css/pages/home.css" />
+    <link rel="stylesheet" href="../css/components/restaurantCards.css" />
+    <link rel="stylesheet" href="../css/components/restaurantMenuModal.css" />
+    <link rel="stylesheet" href="../css/components/restaurantMenuPanel.css" />
+
     <script type="importmap">
       {
         "imports": {
@@ -20,45 +18,26 @@
         }
       }
     </script>
-    <script type="module" src="/js/main.js"></script>
   </head>
   <body data-page="app-home">
     <header>
       <nav>
-        <a href="/pages/app.html">
-          <img class="logo" src="/public/logo.png" alt="Logo of the site" />
+        <a href="./app.html">
+          <img class="logo" src="../public/logo.png" alt="Logo of the site" />
         </a>
         <ul class="nav-links">
           <li>
             <img id="profile-avatar-nav" alt="avatar" />
           </li>
-          <li><a href="/pages/profile.html">Profiili</a></li>
+          <li><a href="./profile.html">Profiili</a></li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
       </nav>
     </header>
     <main>
       <div id="cards-map-container">
-        <aside id="cards-container">
-          <div id="restaurant-modal" class="modal">
-            <div class="modal-content">
-              <div class="modal-buttons">
-                <button id="weekly-button">Weekly</button>
-                <button id="daily-button">Daily</button>
-                <span class="fav-wrapper">
-                  <button id="fav-btn">★</button>
-                </span>
-              </div>
-              <span class="close">&times;</span>
-              <h2 id="modal-title"></h2>
-              <p id="modal-address"></p>
-              <div id="modal-menu"></div>
-            </div>
-          </div>
-        </aside>
-        <section id="map-container">
+        <section id="cards-panel">
           <div class="map-controls">
-            <!-- Google Place Autocomplete -->
             <div class="autocomplete-container">
               <div class="autocomplete-container">
                 <input
@@ -66,7 +45,7 @@
                   id="autocomplete-input"
                   placeholder="Sijaintisi..."
                 />
-                <span id="help-icon" tabindex="0" aria-label="Kentän ohje"
+                <span class="help-icon" tabindex="0" aria-label="Kentän ohje"
                   >?</span
                 >
                 <span class="tooltip-text" role="tooltip"
@@ -75,9 +54,23 @@
                 >
               </div>
             </div>
+            <div class="city-select-container">
+              <select id="city-filter" aria-label="Kaupunki">
+                <option value="">Kaikki kaupungit</option>
+                <option value="helsinki">Helsinki</option>
+                <option value="espoo">Espoo</option>
+                <option value="vantaa">Vantaa</option>
+                <option value="tampere">Tampere</option>
+                <option value="turku">Turku</option>
+                <option value="oulu">Oulu</option>
+                <option value="jyväskylä">Jyväskylä</option>
+                <option value="kuopio">Kuopio</option>
+                <option value="lahti">Lahti</option>
+              </select>
+            </div>
             <div class="search-container">
               <input type="text" id="search-input" placeholder="Suodata..." />
-              <span id="help-icon" tabindex="0" aria-label="Kentän ohje"
+              <span class="help-icon" tabindex="0" aria-label="Kentän ohje"
                 >?</span
               >
               <span class="tooltip-text" role="tooltip"
@@ -85,10 +78,32 @@
                 esimerkiksi: "Helsinki", "Metropolia" tai "Compass Group".
               </span>
             </div>
-            <button id="search-button">Hae</button>
-            <button id="clear-search-button">Tyhjennä</button>
           </div>
+          <aside id="cards-panel">
+            <div id="cards-container"></div>
 
+            <div id="menu-panel" class="menu-panel">
+              <button id="menu-close" class="menu-close">←</button>
+
+              <div class="menu-header">
+                <h2 id="mp-title"></h2>
+                <button id="mp-fav-btn" class="fav-btn">★ Favorite</button>
+              </div>
+
+              <p id="mp-address"></p>
+
+              <div class="menu-tabs">
+                <button id="mp-daily">Daily</button>
+                <button id="mp-weekly">Weekly</button>
+              </div>
+
+              <span id="mp-restaurant-id" style="display: none"></span>
+
+              <div id="mp-menu"></div>
+            </div>
+          </aside>
+        </section>
+        <section id="map-container">
           <gmp-map
             center="65.0121,25.4651"
             zoom="5"
@@ -98,13 +113,10 @@
       </div>
     </main>
 
-    <footer>
-      <p>&copy; <span id="year"></span></p>
-    </footer>
     <script>
       window.initMap = async function () {
         try {
-          const mod = await import("/js/components/mapAuthed.js");
+          const mod = await import("../js/components/map.js");
           if (mod && typeof mod.initMap === "function") {
             await mod.initMap();
           }
@@ -113,11 +125,7 @@
         }
       };
     </script>
-    <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta&map-id=914bc1b32f958043a488e793"
-      async
-      defer
-    ></script>
+    <script src="googlemapskey-private" async defer></script>
+    <script type="module" src="../js/pages/appHomePage.js" defer></script>
   </body>
 </html>
-

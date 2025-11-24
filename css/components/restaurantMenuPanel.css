@@ -1,0 +1,94 @@
+.menu-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 800px;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+}
+
+.fav-btn {
+  font-size: 30px;
+  padding: 2px;
+  border-radius: 10px;
+  background-color: #f3f3f362;
+  cursor: pointer;
+  border: none;
+  color: #bbb;
+}
+
+.fav-btn.active {
+  color: #f5c518;
+}
+
+.menu-panel.open {
+  transform: translateX(0);
+}
+
+.menu-close {
+  font-size: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px 14px;
+}
+
+.menu-tabs {
+  display: flex;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 0 16px;
+}
+
+.menu-tabs button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #f0f0f0;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-tabs button.active {
+  background: #cd4527;
+  color: white;
+}
+
+.mp-menu,
+#mp-menu {
+  display: grid;
+  gap: 10px;
+  margin-top: 10px;
+  padding: 0 16px 16px;
+}
+
+.menu-item,
+.weekly-course {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+@media (max-width: 1024px) {
+  .menu-panel {
+    width: 500px;
+  }
+}
+
+@media (max-width: 720px) {
+  .menu-panel {
+    width: 420px;
+  }
+}

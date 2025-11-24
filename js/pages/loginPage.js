@@ -1,6 +1,6 @@
 import { login } from "../api/authApi.js";
 
-export function initLoginPage() {
+(async function initLoginPage() {
   const form = document.getElementById("login-form");
   if (!form) return;
 
@@ -22,23 +22,14 @@ export function initLoginPage() {
     try {
       const data = await login({ username, password });
       localStorage.setItem("user", JSON.stringify(data));
-      showAlert("Kirjautuminen onnistui!", "green");
-
-      setTimeout(() => {
-        window.location.href = "/pages/app.html";
-      }, 1000);
+      window.location.href = "./app.html";
     } catch (err) {
       showAlert(err.message || "Kirjautuminen epäonnistui.");
     } finally {
       if (submitBtn) submitBtn.disabled = false;
     }
   });
-
-  const yearEl = document.getElementById("year");
-  if (yearEl) {
-    yearEl.textContent = new Date().getFullYear().toString();
-  }
-}
+})();
 
 function showAlert(msg, color = "red") {
   const el = document.getElementById("error-message");
