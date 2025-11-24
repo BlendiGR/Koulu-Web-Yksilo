@@ -1,6 +1,6 @@
-# SChool Project – Mitä Syötäväksi?
+# School Project – Mitä Syötäväksi?
 
-A second-year ICT **Ohjelmistotuotanto** school project built to for hunting menus from school restaurants. This app puts everything in one place — nearby restaurants, filters that actually matter, and daily/weekly menus.
+A second-year ICT **Ohjelmistotuotanto** school project built to for hunting menus from school restaurants. This app puts everything in one place, nearby restaurants, filters and daily/weekly menus.
 
 ## Purpose
 
