@@ -4,14 +4,16 @@
   left: 0;
 
   width: 100%;
-  height: 100%;
+  height: calc(100% - 0px);
 
   background: #fff;
   border-right: 1px solid #ddd;
+
   transform: translateX(-100%);
   transition: transform 0.25s ease;
+
   overflow-y: auto;
-  z-index: 20;
+  z-index: 2;
 }
 
 .menu-header {

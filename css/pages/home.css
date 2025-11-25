@@ -9,12 +9,8 @@
 
 #cards-panel {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* keeps slide inside left column */
 }
-
 #cards-container {
   overflow-y: auto;
   padding: 12px;
@@ -23,6 +19,11 @@
   max-height: calc(100vh - 180px);
 
   box-sizing: border-box;
+}
+
+#map-container {
+  height: 100%;
+  min-height: 300px;
 }
 
 gmp-map {
@@ -86,14 +87,17 @@ gmp-map .gm-style-mtc-bbw {
 @media (max-width: 1024px) {
   #cards-map-container {
     grid-template-columns: 1fr;
-    height: auto;
-    min-height: calc(100vh - 70px);
+    min-height: 100vh;
+  }
+  #map-container {
+    height: 50vh;
+    min-height: 300px;
+    padding-bottom: 100px;
   }
 
-  #map-container,
   #cards-container {
     height: 50vh;
-    min-height: 400px;
+    min-height: 300px;
   }
 }
 
