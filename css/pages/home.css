@@ -9,15 +9,20 @@
 
 #cards-panel {
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   overflow: hidden;
 }
 
 #cards-container {
-  height: 100%;
   overflow-y: auto;
   padding: 12px;
   background: #f8f8f8;
+
+  max-height: calc(100vh - 180px);
+
+  box-sizing: border-box;
 }
 
 gmp-map {
@@ -73,51 +78,9 @@ gmp-map .gm-style-mtc-bbw {
 .search-container,
 .city-select-container {
   position: relative;
-  display: inline-block;
-  width: 100%;
-  max-width: 250px;
+  flex: 1;
+  min-width: 200px;
   height: auto;
-}
-/* Help icon & tooltip */
-
-.help-icon {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: #ccc;
-  color: #000;
-  text-align: center;
-  line-height: 20px;
-  font-size: 13px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.tooltip-text {
-  visibility: hidden;
-  opacity: 0;
-  position: absolute;
-  top: 125%;
-  right: 10%;
-  background: #333;
-  color: #fff;
-  padding: 6px 8px;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  white-space: nowrap;
-  transition: opacity 0.2s;
-  z-index: 5000;
-}
-
-#help-icon:hover ~ .tooltip-text,
-#help-icon:focus ~ .tooltip-text {
-  visibility: visible;
-  opacity: 1;
-  z-index: 99999;
 }
 
 @media (max-width: 1024px) {

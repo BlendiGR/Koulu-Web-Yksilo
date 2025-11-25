@@ -50,9 +50,6 @@ function setupAvatar(userData) {
     const url = `${UPLOADS_BASE}${encodeURIComponent(userData.data.avatar)}`;
     avatarImg.src = url;
     avatarImgNav.src = url;
-  } else {
-    avatarImg.src = "../public/avatar.jpg";
-    avatarImgNav.src = "../public/avatar.jpg";
   }
 }
 

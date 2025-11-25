@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="../css/global.css" />
     <link rel="stylesheet" href="../css/pages/home.css" />
     <link rel="stylesheet" href="../css/components/restaurantCards.css" />
-    <link rel="stylesheet" href="../css/components/restaurantMenuModal.css" />
     <link rel="stylesheet" href="../css/components/restaurantMenuPanel.css" />
 
     <script type="importmap">
@@ -27,33 +26,30 @@
         </a>
         <ul class="nav-links">
           <li>
-            <img id="profile-avatar-nav" alt="avatar" />
+            <img
+              id="profile-avatar-nav"
+              src="../public/avatar.jpg"
+              alt="avatar"
+            />
           </li>
           <li><a href="./profile.html">Profiili</a></li>
           <li id="logout-button"><a>Kirjaudu Ulos</a></li>
         </ul>
       </nav>
     </header>
+
     <main>
       <div id="cards-map-container">
-        <section id="cards-panel">
+        <section>
           <div class="map-controls">
             <div class="autocomplete-container">
-              <div class="autocomplete-container">
-                <input
-                  type="text"
-                  id="autocomplete-input"
-                  placeholder="Sijaintisi..."
-                />
-                <span class="help-icon" tabindex="0" aria-label="Kentän ohje"
-                  >?</span
-                >
-                <span class="tooltip-text" role="tooltip"
-                  >Kirjoita tähän sijaintisi <br />
-                  nähdäksesi lähimmät ravintolat.</span
-                >
-              </div>
+              <input
+                type="text"
+                id="autocomplete-input"
+                placeholder="Sijaintisi..."
+              />
             </div>
+
             <div class="city-select-container">
               <select id="city-filter" aria-label="Kaupunki">
                 <option value="">Kaikki kaupungit</option>
@@ -68,17 +64,12 @@
                 <option value="lahti">Lahti</option>
               </select>
             </div>
+
             <div class="search-container">
               <input type="text" id="search-input" placeholder="Suodata..." />
-              <span class="help-icon" tabindex="0" aria-label="Kentän ohje"
-                >?</span
-              >
-              <span class="tooltip-text" role="tooltip"
-                >Suodata hakemalla kaupungilla, yrityksellä tai koululla, <br />
-                esimerkiksi: "Helsinki", "Metropolia" tai "Compass Group".
-              </span>
             </div>
           </div>
+
           <aside id="cards-panel">
             <div id="cards-container"></div>
 
@@ -103,6 +94,7 @@
             </div>
           </aside>
         </section>
+
         <section id="map-container">
           <gmp-map
             center="65.0121,25.4651"
@@ -125,7 +117,11 @@
         }
       };
     </script>
-    <script src="your-private-googlemaps-key-here" async defer></script>
-    <script type="module" src="../js/pages/appHomePage.js" defer></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhkwx3nQO3JQ_wJ1JfdOFHWFZWxCjscug&libraries=places,marker&callback=initMap&v=beta"
+      async
+      defer
+    ></script>
+    <script type="module" src="../js/pages/appHomePage.js"></script>
   </body>
 </html>
